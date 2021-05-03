@@ -61,10 +61,11 @@ class Solution:
         # 1. Create a lambda function to change all item prices to float.
         self.chipo['item_price'] = self.chipo['item_price'].apply(lambda x: x.replace('$', '')).astype(float)
         # 2. Calculate total sales.
-        self.chipo['total_sales']= self.chipo['quantity'] * self.chipo['item_price']
+        self.chipo['total_sales'] = self.chipo['quantity'] * self.chipo['item_price']
         total_sales = self.chipo['total_sales'].sum() 
         print("\nTotal sales = ",total_sales)
         return total_sales
+        
     def num_orders(self) -> int:
         # TODO
         # How many orders were made in the dataset?

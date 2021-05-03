@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import matplotlib.pyplot as plt
-
+import seaborn as sns
         
 class DiabetesClassifier:
     def __init__(self) -> None:
@@ -14,6 +14,52 @@ class DiabetesClassifier:
         self.X_test = None
         self.y_test = None
         
+
+
+    def box_plot(self):
+    # TODO: Draw a box plot with 'age' on y-axis and 'label' on x-axis using Seaborn plotting library. 
+    # Then, save the box plot to 'diabetes_by_age.png' file.
+    #
+        sns.set(rc={'figure.figsize':(11.7,8.27)})
+
+        sns.boxplot(x=self.pima['label'], y=self.pima['age'])
+
+        plt.title('Diabetes by Age')
+        plt.savefig('diabetes_by_age.png')
+        
+
+    def corr_matrix(self):
+        # TODO: Calculate correlation matrix for each feature.
+        corr_matrix = self.pima.corr()
+        print(corr_matrix)
+    
+
+    def create_new_feature(self):
+        # TODO: create a new synthetic feature called 'bmi_skin' by multiplying 'bmi' * 'skin'
+        # and set the new feature 'bmi_skin' into self.pima DataFrame.
+        
+        self.pima['bmi_skin'] = self.pima['bmi'] * self.pima['skin']
+        print(self.pima.head())
+    
+    '''
+    def calculate_accuracy1(self, result):
+        # TODO: compute accuracy_score using metrics library and return the score.
+        return metrics.accuracy_score(self.y_test, result)
+    '''
+
+    def confusion_matrix1(self, pred):
+        # TODO: compute confusion_matrix using metrics library and return the score.
+        return metrics.confusion_matrix(self.y_test, pred)
+
+
+    def precision_score(self, pred):
+        # TODO: compute precision_score using metrics library and return the score.
+        return metrics.precision_score(self.y_test,pred)
+
+
+    def recall_score(self, pred):
+        # TODO: compute recall_score using metrics library and return the score.
+        return metrics.recall_score(self.y_test,pred)
 
     def define_feature(self,feature_cols,min_max):
         #feature_cols = ['pregnant', 'insulin', 'bmi', 'age']
@@ -86,7 +132,7 @@ if __name__ == "__main__":
     con_matrix_base = classifer.confusion_matrix(result)
     #print(f"confusion_matrix=${con_matrix}")
     print("Sensitivity and specificy value for Base_solution\n")
-    plot = classifer.plot(con_matrix_base)
+    plot_base = classifer.plot(con_matrix_base)
     #print(f"Plotting the confusion matrix {plot}")
 
     # Solution 1.0 
@@ -96,7 +142,7 @@ if __name__ == "__main__":
     score_1 = classifer.calculate_accuracy(solution_1)
     con_matrix_1 = classifer.confusion_matrix(solution_1)
     print("Sensitivity and specificy value for solution_1\n")
-    plot = classifer.plot(con_matrix_1)
+    plot_1 = classifer.plot(con_matrix_1)
 
 
     # Solution 2.0
@@ -105,7 +151,7 @@ if __name__ == "__main__":
     score_2 = classifer.calculate_accuracy(solution_2)
     con_matrix_2 =  classifer.confusion_matrix(solution_2)
     print("Sensitivity and specificy value for solution_2\n")
-    plot = classifer.plot(con_matrix_2)
+    plot_2 = classifer.plot(con_matrix_2)
 
     # Solution 3.0
 
@@ -113,14 +159,44 @@ if __name__ == "__main__":
     score_3 = classifer.calculate_accuracy(solution_3)
     con_matrix_3 =  classifer.confusion_matrix(solution_3)
     print("Sensitivity and specificy value for solution_3\n")
-    plot = classifer.plot(con_matrix_3)
+    plot_3 = classifer.plot(con_matrix_3)
 
     print("| Experiement | Accuracy  | Confusion Matrix   | Comment                    |")
     print("|-------------|-----------|--------------------|----------------------------|")
-    print("| Baseline    |",round(score,7),"|",*con_matrix_base,    "| Base|")
+    print("| Baseline    |",round(score,7),  "|",*con_matrix_base,    "| Base|")
     print("| Solution 1  |",round(score_1,7),"|",*con_matrix_1,     "| All label features|")
     print("| Solution 2  |",round(score_2,7),"|",*con_matrix_2,     "| Most correlated Features|" )
     print("| Solution 3  |",round(score_3,7),"|",*con_matrix_3,     "| Most correlated features with Min Max Normalization|")
+
+
+        #TODO: Draw a box plot with 'age' on y-axis and 'label' on x-axis using Seaborn plotting library. 
+    print("\nThe Box plot using the seaborn library")
+    box_plot = classifer.box_plot()
+    
+
+    # TODO: create a new synthetic feature called 'bmi_skin' by multiplying 'bmi' * 'skin'
+        # and set the new feature 'bmi_skin' into self.pima DataFrame.
+    print("\n Printing the new synthetic feature")
+    bmi_skin = classifer.create_new_feature()
+    
+        # TODO: Calculate correlation matrix for each feature.
+    print("\nPrinting the correaltion matrix")
+    corr_matrix = classifer.corr_matrix()
+
+    # TODO: compute accuracy_score using metrics library and return the score.
+    score1 = classifer.calculate_accuracy1(result)
+    
+    # TODO: compute accuracy_score using metrics library and return the score.
+    score = classifer.calculate_accuracy(result)
+
+    # TODO: compute confusion_matrix using metrics library and return the score.
+    confusion_matrix = classifer.confusion_matrix1(result)
+
+    # TODO: compute precision_score using metrics library and return the score.
+    precision_score = classifer.precision_score(result)
+
+    # TODO: compute recall_score using metrics library and return the score.
+    recall_score = classifer.recall_score(result)
 
 
 
